@@ -25,5 +25,17 @@ RSpec.describe "As a merchant visiting the new discount form" do
     discount = Discount.last
     expect(discount.min_quantity).to eql(10)
     expect(discount.percentage).to eql(20)
+    expect(discount.merchant).to eql(@merchant_1)
+  end
+
+  it "If I incorrectly fill out form, I see an error message and redirect back to form." do
+    visit "/merchant/discounts/new"
+
+    fill_in "discount[min_quantity]", with: ""
+    fill_in "discount[percentage]", with: "20"
+    click_button "Create Discount"
+
+    expect(current_path).to eql("/merchant/discounts/new")
+    expect(page).to have_content("Minimum Quantity field must be filled out.")
   end
 end
