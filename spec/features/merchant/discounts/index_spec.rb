@@ -29,4 +29,14 @@ RSpec.describe "As a merchant when i visit the discounts index page" do
 
     expect(page).to have_no_css("#discount-#{@discount4.id}")
   end
+
+  it "I can click on an 'Edit Discount' link and be taken to form" do
+    visit "/merchant/discounts"
+
+    within("#discount-#{@discount1.id}") do
+      click_link "Edit Discount"
+    end
+
+    expect(current_path).to eql("/merchant/discounts/#{@discount1.id}/edit")
+  end
 end
