@@ -13,6 +13,10 @@ class Merchant::DiscountsController < Merchant::BaseController
     @discount.save ? happy_path_new : sad_path_new(@discount)
   end
 
+  def edit
+
+  end
+
   private
 
   def discount_params
