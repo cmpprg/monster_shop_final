@@ -20,8 +20,14 @@ class Merchant::DiscountsController < Merchant::BaseController
   def update
     @discount = Discount.find(params[:id])
     @discount.update(discount_params)
-    flash[:notice] = "You have succefully updated discount."
-    redirect_to merchant_discounts_path
+    if @discount.save
+      flash[:notice] = "You have succefully updated discount."
+      redirect_to merchant_discounts_path
+    else
+      generate_flash(@discount)
+      render action: :edit
+    end
+
   end
 
   private
