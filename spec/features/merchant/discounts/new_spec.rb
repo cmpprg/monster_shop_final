@@ -35,7 +35,23 @@ RSpec.describe "As a merchant visiting the new discount form" do
     fill_in "discount[percentage]", with: "20"
     click_button "Create Discount"
 
-    expect(current_path).to eql("/merchant/discounts/new")
-    expect(page).to have_content("Minimum Quantity field must be filled out.")
+    expect(page).to have_content('min_quantity: ["can\'t be blank"]')
+  end
+
+  it "If I correctly fill out form, I see a happy message and redirect back to index were I see new discount listed" do
+    visit "/merchant/discounts/new"
+
+    fill_in "discount[min_quantity]", with: "10"
+    fill_in "discount[percentage]", with: "20"
+    click_button "Create Discount"
+
+    discount = Discount.last
+
+    expect(current_path).to eql("/merchant/discounts")
+    expect(page).to have_content("You have succefully created a new discount.")
+    within("#discount-#{discount.id}") do
+      expect(page).to have_content("Minimum Quantity to get Discount = #{discount.min_quantity}")
+      expect(page).to have_content("Discount Percentage = #{discount.percentage}")
+    end
   end
 end
