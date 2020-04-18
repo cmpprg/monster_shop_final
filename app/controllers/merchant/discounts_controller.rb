@@ -1,7 +1,7 @@
 class Merchant::DiscountsController < Merchant::BaseController
 
   def index
-
+    @discounts = current_merchant.discounts
   end
 
   def new
@@ -17,7 +17,7 @@ class Merchant::DiscountsController < Merchant::BaseController
 
   def discount_params
     discount_params = params.require(:discount).permit(:min_quantity, :percentage)
-    discount_params[:merchant_id] = current_user.merchant.id
+    discount_params[:merchant_id] = current_merchant.id
     discount_params
   end
 
@@ -29,5 +29,9 @@ class Merchant::DiscountsController < Merchant::BaseController
   def sad_path_new(object)
     generate_flash(object)
     render action: :new
+  end
+
+  def current_merchant
+    current_user.merchant
   end
 end
