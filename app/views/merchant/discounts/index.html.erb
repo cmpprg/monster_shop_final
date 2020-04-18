@@ -1,1 +1,8 @@
 <%= link_to "New Discount", new_merchant_discount_path %>
+
+<% @discounts.each do |discount| %>
+  <section id="discount-<%= discount.id %>">
+    <p>Minimum Quantity to get Discount = <%= discount.min_quantity %></p>
+    <p>Discount Percentage = <%= discount.percentage %></p>
+  </section>
+<% end %>
