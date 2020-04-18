@@ -13,7 +13,7 @@ RSpec.describe "As a merchant when i visit the edit discount form" do
     visit "/merchant/discounts/#{@discount1.id}/edit"
 
     expect(@discount1.min_quantity).to eql(10)
-    expect(@discoutn1.percentage).to eql(20)
+    expect(@discount1.percentage).to eql(20)
 
     fill_in "discount[min_quantity]", with: "15"
     fill_in "discount[percentage]", with: "25"
