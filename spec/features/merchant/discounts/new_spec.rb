@@ -15,7 +15,15 @@ RSpec.describe "As a merchant visiting the new discount form" do
     expect(current_path).to eql("/merchant/discounts/new")
   end
 
-  it "I can see a form with fields for min_quantity and percent_discount" do
+  it "I can see a form with fields for minimum quantity and discount percentage" do
+    visit "/merchant/discounts/new"
 
+    fill_in "discount[min_quantity]", with: "10"
+    fill_in "discount[percentage]", with: "20"
+    click_button "Create Discount"
+
+    discount = Discount.last
+    expect(discount.min_quantity).to eql(10)
+    expect(discount.percentage).to eql(20)
   end
 end
