@@ -28,4 +28,17 @@ RSpec.describe "As a merchant when i visit the edit discount form" do
     end
     expect(page).to have_content("You have succefully updated discount.")
   end
+
+  it "If I incorrectly fill out form, I get a sad message and am taken back to form page." do
+    visit "/merchant/discounts/#{@discount1.id}/edit"
+
+    fill_in "discount[min_quantity]", with: ""
+    fill_in "discount[percentage]", with: "50"
+    click_button "Update Discount"
+
+    expect(page).to have_content('min_quantity: ["can\'t be blank"]')
+
+    expect(page).to have_field("discount[min_quantity]")
+    expect(page).to have_field("discount[percentage]")
+  end
 end

@@ -36,6 +36,9 @@ RSpec.describe "As a merchant visiting the new discount form" do
     click_button "Create Discount"
 
     expect(page).to have_content('min_quantity: ["can\'t be blank"]')
+
+    expect(page).to have_field("discount[min_quantity]")
+    expect(page).to have_field("discount[percentage]")
   end
 
   it "If I correctly fill out form, I see a happy message and redirect back to index were I see new discount listed" do
