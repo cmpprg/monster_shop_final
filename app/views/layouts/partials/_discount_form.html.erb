@@ -1,0 +1,9 @@
+<h1><%= title %></h1>
+
+<%= form_with model: [:merchant, model], local:true do |form| %>
+  <%= form.label :min_quantity, "Minimum Quantity Needed for Discount" %>
+  <%= form.text_field :min_quantity %>
+  <%= form.label :percentage, "Discount Percentage" %>
+  <%= form.number_field :percentage, in: 1..100, step: 1 %>
+  <%= form.submit %>
+<% end %>
