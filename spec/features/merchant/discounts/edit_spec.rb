@@ -23,8 +23,8 @@ RSpec.describe "As a merchant when i visit the edit discount form" do
 
     @discount1.reload
     within("#discount-#{@discount1.id}") do
-      expect(page).to have_content("Minimum Quantity to get Discount = 15")
-      expect(page).to have_content("Discount Percentage = 25")
+      expect(page).to have_content("15")
+      expect(page).to have_content("25")
     end
     expect(page).to have_content("You have succefully updated discount.")
   end
