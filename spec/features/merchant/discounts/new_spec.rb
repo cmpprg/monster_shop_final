@@ -51,7 +51,7 @@ RSpec.describe "As a merchant visiting the new discount form" do
     discount = Discount.last
 
     expect(current_path).to eql("/merchant/discounts")
-    expect(page).to have_content("You have succefully created a new discount.")
+    expect(page).to have_content("You have succefully created discount.")
     within("#discount-#{discount.id}") do
       expect(page).to have_content("Minimum Quantity to get Discount = #{discount.min_quantity}")
       expect(page).to have_content("Discount Percentage = #{discount.percentage}")
