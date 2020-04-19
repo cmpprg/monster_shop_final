@@ -15,16 +15,16 @@ RSpec.describe "As a merchant when i visit the discounts index page" do
     visit "/merchant/discounts"
 
     within("#discount-#{@discount1.id}") do
-      expect(page).to have_content("Minimum Quantity to get Discount = #{@discount1.min_quantity}")
-      expect(page).to have_content("Discount Percentage = #{@discount1.percentage}")
+      expect(page).to have_content(@discount1.min_quantity)
+      expect(page).to have_content(@discount1.percentage)
     end
     within("#discount-#{@discount2.id}") do
-      expect(page).to have_content("Minimum Quantity to get Discount = #{@discount2.min_quantity}")
-      expect(page).to have_content("Discount Percentage = #{@discount2.percentage}")
+      expect(page).to have_content(@discount2.min_quantity)
+      expect(page).to have_content(@discount2.percentage)
     end
     within("#discount-#{@discount3.id}") do
-      expect(page).to have_content("Minimum Quantity to get Discount = #{@discount3.min_quantity}")
-      expect(page).to have_content("Discount Percentage = #{@discount3.percentage}")
+      expect(page).to have_content(@discount3.min_quantity)
+      expect(page).to have_content(@discount3.percentage)
     end
 
     expect(page).to have_no_css("#discount-#{@discount4.id}")
