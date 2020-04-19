@@ -14,14 +14,15 @@ RSpec.describe "As a user, when I add enough quantity to cart." do
     click_button("Add to Cart")
 
     visit cart_path
-    within("item-#{@item1.id}") do
-      expect(page).to have_content("Price: 100")
+    within("#item-#{@item1.id}") do
+      expect(page).to have_content("Price: $100.00")
     end
-    within("item-#{@item1.id}") do
+    within("#item-#{@item1.id}") do
       click_button "More of This!"
     end
-    within("item-#{@item1.id}") do
-      expect(page).to have_content("Price: 80, 20% off")
+    within("#item-#{@item1.id}") do
+      expect(page).to have_content("Price: $80.00, 20% off")
+      expect(page).to have_content("Subtotal: $160.00")
     end
   end
 
