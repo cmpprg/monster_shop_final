@@ -23,6 +23,11 @@ class Merchant::DiscountsController < Merchant::BaseController
     @discount.save ? happy_path("updated") : sad_path(@discount, :edit)
   end
 
+  def destroy
+    Discount.destroy(params[:id])
+    redirect_to merchant_discounts_path
+  end
+
   private
 
   def discount_params
