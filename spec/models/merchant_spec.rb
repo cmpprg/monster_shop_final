@@ -40,6 +40,7 @@ RSpec.describe Merchant do
       @megan.discounts.create!(min_quantity: 4, percentage: 20)
       @megan.discounts.create!(min_quantity: 6, percentage: 30)
 
+      expect(@megan.discount_for(1)).to eql(0)
       expect(@megan.discount_for(2)).to eql(10)
       expect(@megan.discount_for(3)).to eql(10)
       expect(@megan.discount_for(4)).to eql(20)

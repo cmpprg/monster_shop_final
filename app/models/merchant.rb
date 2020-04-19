@@ -35,7 +35,8 @@ class Merchant < ApplicationRecord
   end
 
   def discount_for(quantity)
-    discounts.where("min_quantity <= ?", quantity)
-    .order(:min_quantity).last.percentage
+    discount = discounts.where("min_quantity <= ?", quantity).order(:min_quantity).last
+    return 0 if discount.nil?
+    discount.percentage
   end
 end
