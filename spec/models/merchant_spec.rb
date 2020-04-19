@@ -35,6 +35,18 @@ RSpec.describe Merchant do
       @order_item_4 = @order_2.order_items.create!(item: @ogre, price: @hippo.price, quantity: 2)
     end
 
+    it "#discount_for(quantity)" do
+      @megan.discounts.create!(min_quantity: 2, percentage: 10)
+      @megan.discounts.create!(min_quantity: 4, percentage: 20)
+      @megan.discounts.create!(min_quantity: 6, percentage: 30)
+
+      expect(@megan.discount_for(2)).to eql(10)
+      expect(@megan.discount_for(3)).to eql(10)
+      expect(@megan.discount_for(4)).to eql(20)
+      expect(@megan.discount_for(5)).to eql(20)
+      expect(@megan.discount_for(6)).to eql(30)
+    end
+
     it '.item_count' do
       expect(@megan.item_count).to eq(2)
       expect(@brian.item_count).to eq(1)
