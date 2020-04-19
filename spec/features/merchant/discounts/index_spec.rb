@@ -42,12 +42,13 @@ RSpec.describe "As a merchant when i visit the discounts index page" do
 
   it "I can click a 'Delete Discount' link and remove discount from app and db" do
     visit "/merchant/discounts"
-    
+
     within("#discount-#{@discount2.id}") do
       click_link "Delete Discount"
     end
-
     expect(current_path).to eql("/merchant/discounts")
+    @merchant1.reload
+    visit current_path
 
     expect(page).to have_no_css("#discount-#{@discount2.id}")
   end
