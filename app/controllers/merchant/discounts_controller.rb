@@ -10,7 +10,7 @@ class Merchant::DiscountsController < Merchant::BaseController
 
   def create
     @discount = current_merchant.discounts.new(discount_params)
-    @discount.save ? happy_path_new : sad_path_new(@discount)
+    @discount.save ? happy_path("created") : sad_path(@discount, :new)
   end
 
   def edit
@@ -20,14 +20,7 @@ class Merchant::DiscountsController < Merchant::BaseController
   def update
     @discount = Discount.find(params[:id])
     @discount.update(discount_params)
-    if @discount.save
-      flash[:notice] = "You have succefully updated discount."
-      redirect_to merchant_discounts_path
-    else
-      generate_flash(@discount)
-      render action: :edit
-    end
-
+    @discount.save ? happy_path("updated") : sad_path(@discount, :edit)
   end
 
   private
@@ -36,14 +29,14 @@ class Merchant::DiscountsController < Merchant::BaseController
     params.require(:discount).permit(:min_quantity, :percentage)
   end
 
-  def happy_path_new
-    flash[:notice] = "You have succefully created a new discount."
+  def happy_path(crud_action_past_tense)
+    flash[:notice] = "You have succefully #{crud_action_past_tense} discount."
     redirect_to merchant_discounts_path
   end
 
-  def sad_path_new(object)
+  def sad_path(object, render_path)
     generate_flash(object)
-    render action: :new
+    render action: render_path
   end
 
   def current_merchant
