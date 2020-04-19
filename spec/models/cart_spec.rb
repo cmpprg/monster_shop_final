@@ -72,8 +72,17 @@ RSpec.describe Cart do
         @cart.add_item(@ogre.id.to_s)
       end
 
-      expect(@cart.discount_of(@giant.id)).to eql(0)
-      expect(@cart.discount_of(@ogre.id)).to eql(20)
+      expect(@cart.discount_of(@giant)).to eql(0)
+      expect(@cart.discount_of(@ogre)).to eql(20)
+    end
+
+    it "#price_with_discount" do
+      3.times do
+        @cart.add_item(@ogre.id.to_s)
+      end
+
+      expect(@cart.price_with_discount(@giant)).to eql(50.0)
+      expect(@cart.price_with_discount(@ogre)).to eql(16.0)
     end
   end
 end
