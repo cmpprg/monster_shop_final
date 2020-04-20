@@ -36,7 +36,7 @@ RSpec.describe "As a merchant when i visit the edit discount form" do
     fill_in "discount[percentage]", with: "50"
     click_button "Update Discount"
 
-    expect(page).to have_content('min_quantity: ["can\'t be blank"]')
+    expect(page).to have_content("Min quantity can't be blank")
 
     expect(page).to have_field("discount[min_quantity]")
     expect(page).to have_field("discount[percentage]")

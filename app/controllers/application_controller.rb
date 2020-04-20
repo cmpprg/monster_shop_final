@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   def generate_flash(resource)
-    resource.errors.messages.each do |validation, message|
+    resource.errors.full_messages.each do |validation, message|
       flash[validation] = "#{validation}: #{message}"
     end
   end
