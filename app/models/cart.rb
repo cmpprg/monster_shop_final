@@ -27,7 +27,7 @@ class Cart
   def grand_total
     grand_total = 0.0
     @contents.each do |item_id, quantity|
-      grand_total += Item.find(item_id).price * quantity
+      grand_total += subtotal_of(item_id)
     end
     grand_total
   end
@@ -37,10 +37,29 @@ class Cart
   end
 
   def subtotal_of(item_id)
-    @contents[item_id.to_s] * Item.find(item_id).price
+    @contents[item_id.to_s] * price_with_discount(Item.find(item_id))
   end
 
   def limit_reached?(item_id)
     count_of(item_id) == Item.find(item_id).inventory
   end
+
+  def discount?(item)
+    discount_of(item) > 0
+  end
+
+  def discount_of(item)
+    item.merchant.discount_for(@contents[item.id.to_s])
+  end
+
+  def discount_value(item)
+    item.price * discount_of(item) / 100
+  end
+
+  def price_with_discount(item)
+    item.price - discount_value(item)
+  end
+
+
+
 end

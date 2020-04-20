@@ -33,4 +33,10 @@ class Merchant < ApplicationRecord
   def order_items_by_order(order_id)
     order_items.where(order_id: order_id)
   end
+
+  def discount_for(quantity)
+    discount = discounts.where("min_quantity <= ?", quantity).order(:percentage).last
+    return 0 if discount.nil?
+    discount.percentage
+  end
 end

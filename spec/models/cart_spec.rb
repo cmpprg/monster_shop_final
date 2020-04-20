@@ -8,6 +8,9 @@ RSpec.describe Cart do
       @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 2 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+      @discount1 = @megan.discounts.create!(min_quantity: 3, percentage: 10)
+      @discount2 = @megan.discounts.create!(min_quantity: 4, percentage: 20)
+      @discount3 = @megan.discounts.create!(min_quantity: 6, percentage: 30)
       @cart = Cart.new({
         @ogre.id.to_s => 1,
         @giant.id.to_s => 2
@@ -62,6 +65,41 @@ RSpec.describe Cart do
       @cart.less_item(@giant.id.to_s)
 
       expect(@cart.count_of(@giant.id)).to eq(1)
+    end
+
+    it "#discount_of(item)" do
+      3.times do
+        @cart.add_item(@ogre.id.to_s)
+      end
+
+      expect(@cart.discount_of(@giant)).to eql(0)
+      expect(@cart.discount_of(@ogre)).to eql(20)
+    end
+
+    it "#price_with_discount(item)" do
+      3.times do
+        @cart.add_item(@ogre.id.to_s)
+      end
+
+      expect(@cart.price_with_discount(@giant)).to eql(50.0)
+      expect(@cart.price_with_discount(@ogre)).to eql(16.0)
+    end
+
+    it "discount_value(object)" do
+      3.times do
+        @cart.add_item(@ogre.id.to_s)
+      end
+
+      expect(@cart.discount_value(@ogre)).to eql(4.0)
+    end
+
+    it "discount?(item)" do
+      3.times do
+        @cart.add_item(@ogre.id.to_s)
+      end
+
+      expect(@cart.discount?(@giant)).to eql(false)
+      expect(@cart.discount?(@ogre)).to eql(true)
     end
   end
 end
