@@ -44,14 +44,18 @@ class Cart
     count_of(item_id) == Item.find(item_id).inventory
   end
 
-  def discount_of(object)
-    object.merchant.discount_for(@contents[object.id.to_s])
+  def discount_of(item)
+    item.merchant.discount_for(@contents[item.id.to_s])
   end
 
-  def price_with_discount(object)
-    return object.price if discount_of(object) == 0
-    object.price * ".#{100 - discount_of(object)}".to_f
+  def discount_value(item)
+    item.price * discount_of(item) / 100
   end
+
+  def price_with_discount(item)
+    item.price - discount_value(item)
+  end
+
 
 
 end
