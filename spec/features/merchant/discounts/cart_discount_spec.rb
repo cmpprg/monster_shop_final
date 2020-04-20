@@ -68,5 +68,42 @@ RSpec.describe "As a user, when I add enough quantity to cart." do
     end
   end
 
+  it "A discount only effects the single item that has reached necessary quantity,
+      does not affect other items from same merchant" do
+
+      visit item_path(@item1)
+      click_button("Add to Cart")
+
+      visit item_path(@item2)
+      click_button("Add to Cart")
+
+      visit cart_path
+
+      within("#item-#{@item1.id}") do
+        expect(page).to have_content("Price: $100.00")
+      end
+      within("#item-#{@item2.id}") do
+        expect(page).to have_content("Price: $50.00")
+      end
+
+      2.times do
+        within("#item-#{@item1.id}") do
+          click_button "More of This!"
+        end
+      end
+      within("#item-#{@item2.id}") do
+        click_button "More of This!"
+      end
+
+      within("#item-#{@item1.id}") do
+        expect(page).to have_content("Price: $80.00, 20% off")
+      end
+      within("#item-#{@item2.id}") do
+        expect(page).to have_content("Price: $50.00")
+      end
+
+
+  end
+
 
 end
