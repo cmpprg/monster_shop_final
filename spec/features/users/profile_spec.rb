@@ -102,7 +102,7 @@ RSpec.describe "User Profile Path" do
       fill_in "Email", with: @admin.email
       click_button "Update Profile"
 
-      expect(page).to have_content("email: [\"has already been taken\"]")
+      expect(page).to have_content("Email has already been taken")
       expect(page).to have_button "Update Profile"
     end
   end
